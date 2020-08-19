@@ -124,4 +124,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
   rotateButton.addEventListener('click', rotate);
 
+//drag and drop user ships
+ships.forEach(ship => ship.addEventListener('dragstart', dragStart));
+userSquares.forEach(square => square.addEventListener('dragstart', dragStart));
+userSquares.forEach(square => square.addEventListener('dragover', dragOver));
+userSquares.forEach(square => square.addEventListener('dragenter', dragEnter));
+userSquares.forEach(square => square.addEventListener('dragleave', dragLeave));
+userSquares.forEach(square => square.addEventListener('drop', dragDrop));
+userSquares.forEach(square => square.addEventListener('dragend', dragEnd));
+
+let selectedShipNameWithIndex;
+let draggedShip;
+let draggedShipLength;
+
+//on mouse click get the id of the square within the ship 
+ships.forEach(ship => ship.addEventListener('mousedown', (event) => {
+  selectedShipNameWithIndex = event.target.id;
+  console.log(selectedShipNameWithIndex);
+}))
+
+function dragStart(event) {
+  draggedShip = event.target;
+  draggedShipLength = event.target.children.length;
+  console.log(draggedShipLength);
+}
+
+function dragOver(event) {
+ event.preventDefault();
+ //console.log('drag over');
+}
+
+function dragEnter(event) {
+  event.preventDefault();
+  //console.log('drag enter');
+}
+
+function dragLeave() {
+  event.preventDefault();
+ // console.log('drag leave');
+}
+
+function dragDrop() {
+  let shipNameWithLastId = draggedShip.lastElementChild.id
+  console.log(shipNameWithLastId);
+  let shipClass = shipNameWithLastId.slice(0, -2)
+  console.log(shipClass);
+  let lastShipIndex = parseInt(shipNameWithLastId.substr(-1));
+  console.log(lastShipIndex);
+}
+
+function dragEnd() {
+  // console.log('dragend')
+}
+
+
 })
