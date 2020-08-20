@@ -242,11 +242,10 @@ function playGame() {
   if (isGameOver) return;
   if (currentPlayer === 'user') {
     turnDisplay.innerHTML = 'Your Go';
-    computerSquares.forEach(square => square.addEventListener('click', function(event) {
-      revealSquare(square);
-    }));
+    computerSquares.forEach(square => square.addEventListener('click', revealSquare));
   };
   if (currentPlayer === 'computer') {
+    computerSquares.forEach(square => square.removeEventListener('click', revealSquare));
     turnDisplay.innerHTML = "Computer's Go";
     setTimeout(computerGo, 1000);
   }
@@ -260,24 +259,25 @@ let cruiserCount = 0
 let battleshipCount = 0
 let carrierCount = 0
 
-function revealSquare(square) {
+function revealSquare(event) {
   //make sure that clicking on the field that was already clicked doesnt count as turn
-  if (!square.classList.contains('boom') || !square.classList.contains('miss') ) {
+  if (!event.target.classList.contains('boom') || !event.target.classList.contains('miss') ) {
     //logic to check when ship sinks
-    if (square.classList.contains('destroyer')) destroyerCount++;
-    if (square.classList.contains('submarine')) submarineCount++;
-    if (square.classList.contains('cruiser')) cruiserCount++;
-    if (square.classList.contains('battleship')) battleshipCount++;
-    if (square.classList.contains('carrier')) carrierCount++;
+    if (event.target.classList.contains('destroyer')) destroyerCount++;
+    if (event.target.classList.contains('submarine')) submarineCount++;
+    if (event.target.classList.contains('cruiser')) cruiserCount++;
+    if (event.target.classList.contains('battleship')) battleshipCount++;
+    if (event.target.classList.contains('carrier')) carrierCount++;
     //logic to check if hit / miss
-    if (square.classList.contains('taken')) {
-      square.classList.add('boom');
+    if (event.target.classList.contains('taken')) {
+      event.target.classList.add('boom');
     } else {
-      square.classList.add('miss');
-    }
-  }
-  checkForWins()
-  currentPlayer = 'computer';
+      event.target.classList.add('miss');
+    };
+    currentPlayer = 'computer';
+  
+  } else return;
+  checkForWins();
   playGame();
 }
 
@@ -303,11 +303,10 @@ function computerGo() {
     } else {
       userSquares[random].classList.add('miss');
     };
-
-    checkForWins()
+    currentPlayer = 'user';
   } else computerGo();
-  currentPlayer = 'user';
-  turnDisplay.innerHTML = 'Your Go';
+  checkForWins()
+  playGame();
 }
 
 function checkForWins() {
