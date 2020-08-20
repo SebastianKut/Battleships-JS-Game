@@ -151,3 +151,9 @@
 .miss {
     background-color: black;
 }
+
+#start, #whose-go {
+    display: none;
+}
+
+

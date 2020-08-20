@@ -185,10 +185,8 @@ function dragDrop() {
   //account for ships wrapping around to the next row when its in horizontal or next column when in vertical position by creating an array 
   //of forbbiden squares
   const notAllowedHorizontal = [0,10,20,30,40,50,60,70,80,90,1,11,21,31,41,51,61,71,81,91,2,22,32,42,52,62,72,82,92,3,13,23,33,43,53,63,73,83,93];
-  //const notAllowedVertical = [99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60];
   //depending on ships length we only want to limit the correct amount of squares on a grid
   let newNotAllowedHorizontal = notAllowedHorizontal.splice(0, 10 * lastShipIndex);
-  //let newNotAllowedVertical = notAllowedVertical.splice(0, 10 * lastShipIndex);
   //get selected ship last square index number
   let selectedShipIndex = (selectedShipNameWithIndex.substr(-1));
   //we have to correct shipLastId depending on which square we dragging our ship by so it shows the correct square on a grid always
@@ -230,7 +228,14 @@ function dragDrop() {
     } else return;
   
 displayGrid.removeChild(draggedShip);
+if (displayGrid.children.length === 0) showStartButton(); 
+}
 
+function showStartButton() {
+  startButton.addEventListener('click', playGame);
+  startButton.style.display = 'inline-block';
+  displayGrid.style.display = 'none';
+  rotateButton.style.display = 'none';
 }
 
 function dragEnd() {
@@ -239,14 +244,21 @@ function dragEnd() {
 
 //Game Logic
 function playGame() {
+  turnDisplay.style.display = 'block';
+  startButton.style.display = 'none';
+
   if (isGameOver) return;
+
   if (currentPlayer === 'user') {
+    turnDisplay.style.color = 'black';
     turnDisplay.innerHTML = 'Your Go';
     computerSquares.forEach(square => square.addEventListener('click', revealSquare));
   };
+
   if (currentPlayer === 'computer') {
     computerSquares.forEach(square => square.removeEventListener('click', revealSquare));
-    turnDisplay.innerHTML = "Computer's Go";
+    turnDisplay.style.color = 'transparent';
+    turnDisplay.innerHTML = 'Computers Go';
     setTimeout(computerGo, 1000);
   }
 }
@@ -261,7 +273,7 @@ let carrierCount = 0
 
 function revealSquare(event) {
   //make sure that clicking on the field that was already clicked doesnt count as turn
-  if (!event.target.classList.contains('boom') || !event.target.classList.contains('miss') ) {
+  if (!(event.target.classList.contains('boom') || event.target.classList.contains('miss'))) {
     //logic to check when ship sinks
     if (event.target.classList.contains('destroyer')) destroyerCount++;
     if (event.target.classList.contains('submarine')) submarineCount++;
@@ -275,7 +287,6 @@ function revealSquare(event) {
       event.target.classList.add('miss');
     };
     currentPlayer = 'computer';
-  
   } else return;
   checkForWins();
   playGame();
@@ -290,7 +301,7 @@ let cpuCarrierCount = 0
 function computerGo() {
   let random = Math.floor(Math.random() * userSquares.length);
   
-  if (!userSquares[random].classList.contains('boom') || !userSquares[random].classList.contains('miss')) {
+  if (!(userSquares[random].classList.contains('boom') || userSquares[random].classList.contains('miss'))) {
    
     if (userSquares[random].classList.contains('destroyer')) cpuDestroyerCount++;
     if (userSquares[random].classList.contains('submarine')) cpuSubmarineCount++;
@@ -310,45 +321,60 @@ function computerGo() {
 }
 
 function checkForWins() {
+
+  function hideInfo() {
+    infoDisplay.innerHTML='';
+  } 
+
   if (destroyerCount === 2) {
     infoDisplay.innerHTML = 'You sunk the computers destroyer';
+    setTimeout(hideInfo, 1000);
     destroyerCount = 10;
   }
   if (submarineCount === 3) {
-    infoDisplay.innerHTML = `You sunk the computers submarine`
-    submarineCount = 10
+    infoDisplay.innerHTML = `You sunk the computers submarine`;
+    setTimeout(hideInfo, 1000);
+    submarineCount = 10;
   }
   if (cruiserCount === 3) {
-    infoDisplay.innerHTML = `You sunk the computers cruiser`
-    cruiserCount = 10
+    infoDisplay.innerHTML = `You sunk the computers cruiser`;
+    setTimeout(hideInfo, 1000);
+    cruiserCount = 10;
   }
   if (battleshipCount === 4) {
-    infoDisplay.innerHTML = `You sunk the computers battleship`
-    battleshipCount = 10
+    infoDisplay.innerHTML = `You sunk the computers battleship`;
+    setTimeout(hideInfo, 1000);
+    battleshipCount = 10;
   }
   if (carrierCount === 5) {
-    infoDisplay.innerHTML = `You sunk the computers carrier`
-    carrierCount = 10
+    infoDisplay.innerHTML = `You sunk the computers carrier`;
+    setTimeout(hideInfo, 1000);
+    carrierCount = 10;
   }
   if (cpuDestroyerCount === 2) {
-    infoDisplay.innerHTML = `computers sunk your destroyer`
-    cpuDestroyerCount = 10
+    infoDisplay.innerHTML = `computers sunk your destroyer`;
+    setTimeout(hideInfo, 1000);
+    cpuDestroyerCount = 10;
   }
   if (cpuSubmarineCount === 3) {
-    infoDisplay.innerHTML = `computers sunk your submarine`
-    cpuSubmarineCount = 10
+    infoDisplay.innerHTML = `computers sunk your submarine`;
+    setTimeout(hideInfo, 1000);
+    cpuSubmarineCount = 10;
   }
   if (cpuCruiserCount === 3) {
-    infoDisplay.innerHTML = `computers sunk your cruiser`
-    cpuCruiserCount = 10
+    infoDisplay.innerHTML = `computers sunk your cruiser`;
+    setTimeout(hideInfo, 1000);
+    cpuCruiserCount = 10;
   }
   if (cpuBattleshipCount === 4) {
-    infoDisplay.innerHTML = `computers sunk your battleship`
-    cpuBattleshipCount = 10
+    infoDisplay.innerHTML = `computers sunk your battleship`;
+    setTimeout(hideInfo, 1000);
+    cpuBattleshipCount = 10;
   }
   if (cpuCarrierCount === 5) {
-    infoDisplay.innerHTML = `computers sunk your carrier`
-    cpuCarrierCount = 10
+    infoDisplay.innerHTML = `computers sunk your carrier`;
+    setTimeout(hideInfo, 1000);
+    cpuCarrierCount = 10;
   }
 
   if ((destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount) === 50) {
@@ -360,11 +386,14 @@ function checkForWins() {
     infoDisplay.innerHTML = 'COMPUTER WINS';
     gameOver();
   }
+
 }
 
 function gameOver() {
   isGameOver = true;
-  startButton.removeEventListener('click', playGame)
+  startButton.removeEventListener('click', playGame);
+  computerSquares.forEach(square => square.removeEventListener('click', revealSquare));
+  turnDisplay.style.color = 'transparent';
 }
 
 
