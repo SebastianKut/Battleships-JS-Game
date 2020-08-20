@@ -175,29 +175,45 @@ function dragDrop() {
   let lastShipIndex = parseInt(shipNameWithLastId.substr(-1));
   console.log('last ship index' + lastShipIndex);
   //to get which exact square on the grid the tail of our ship will be on
-  let shipLastId = lastShipIndex + parseInt(this.dataset.id);
+  let shipLastId;
+  if (isHorizontal) {
+    shipLastId = lastShipIndex + parseInt(this.dataset.id);
+  };
+  if (!isHorizontal) {
+    shipLastId = (lastShipIndex * width) + parseInt(this.dataset.id);
+  }
   //account for ships wrapping around to the next row when its in horizontal or next column when in vertical position by creating an array 
   //of forbbiden squares
   const notAllowedHorizontal = [0,10,20,30,40,50,60,70,80,90,1,11,21,31,41,51,61,71,81,91,2,22,32,42,52,62,72,82,92,3,13,23,33,43,53,63,73,83,93];
-  const notAllowedVertical = [99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60];
+  //const notAllowedVertical = [99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60];
   //depending on ships length we only want to limit the correct amount of squares on a grid
   let newNotAllowedHorizontal = notAllowedHorizontal.splice(0, 10 * lastShipIndex);
-  let newNotAllowedVertical = notAllowedVertical.splice(0, 10 * lastShipIndex);
+  //let newNotAllowedVertical = notAllowedVertical.splice(0, 10 * lastShipIndex);
   //get selected ship last square index number
   let selectedShipIndex = (selectedShipNameWithIndex.substr(-1));
   //we have to correct shipLastId depending on which square we dragging our ship by so it shows the correct square on a grid always
-  shipLastId -= parseInt(selectedShipIndex);
-  console.log(this.dataset.id);
+  if (isHorizontal) {
+    shipLastId = shipLastId - parseInt(selectedShipIndex);
+  };
+  if (!isHorizontal) {
+    shipLastId = shipLastId - parseInt(selectedShipIndex * width);
+  }
+  console.log('ship last id '+shipLastId);
 
   if (isHorizontal && !newNotAllowedHorizontal.includes(shipLastId)) {
     //loop through user squares array and add classess taken and ship name class, correct starting square position on a grid 
     //by substractig id of the square by which we are dragging the ship into place
     for (let i = 0; i < draggedShipLength; i++) {
-      userSquares[parseInt(this.dataset.id) - selectedShipIndex + i].classList.add('taken', shipClass);
+      let areaToBeDropped = parseInt(this.dataset.id) - selectedShipIndex + i;
+      userSquares[areaToBeDropped].classList.add('taken', shipClass);
     }
-  } else if (!isHorizontal && !newNotAllowedVertical.includes(shipLastId)) {
+  } else if (!isHorizontal && shipLastId <= 99) {
     for (let i = 0; i < draggedShipLength; i++) {
-      userSquares[parseInt(this.dataset.id) - (selectedShipIndex * width) + (i * width)].classList.add('taken', shipClass);  
+      let areaToBeDropped = parseInt(this.dataset.id) - (selectedShipIndex * width) + (i * width);
+      //ship can be dropped on antother ship - we have to check if all squares are taken first and then if not then add class taken
+      //line below only works if we drop the whole ship on the other one
+      if (userSquares[areaToBeDropped].classList.contains('taken')) break;
+      if (!userSquares[areaToBeDropped].classList.contains('taken')) userSquares[areaToBeDropped].classList.add('taken', shipClass);   
     } 
     } else return;
   
