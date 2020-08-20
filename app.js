@@ -200,21 +200,33 @@ function dragDrop() {
   }
   console.log('ship last id '+shipLastId);
 
+  let areaIsEmpty = true;
+  //check if ship can be dropped to the user grid
+  //in horizontal position
   if (isHorizontal && !newNotAllowedHorizontal.includes(shipLastId)) {
+    //check if area is empty
+    for (let i = 0; i < draggedShipLength; i++) {
+        if (userSquares[parseInt(this.dataset.id) - selectedShipIndex + i].classList.contains('taken')) areaIsEmpty = false;
+      };
     //loop through user squares array and add classess taken and ship name class, correct starting square position on a grid 
     //by substractig id of the square by which we are dragging the ship into place
-    for (let i = 0; i < draggedShipLength; i++) {
-      let areaToBeDropped = parseInt(this.dataset.id) - selectedShipIndex + i;
-      userSquares[areaToBeDropped].classList.add('taken', shipClass);
-    }
+    if (areaIsEmpty) {
+      for (let i = 0; i < draggedShipLength; i++) {
+        userSquares[parseInt(this.dataset.id) - selectedShipIndex + i].classList.add('taken', shipClass);
+      }
+    } else return; 
+  //in vertical position
   } else if (!isHorizontal && shipLastId <= 99) {
+    //check if area in the grid we wanna drop in is empty
     for (let i = 0; i < draggedShipLength; i++) {
-      let areaToBeDropped = parseInt(this.dataset.id) - (selectedShipIndex * width) + (i * width);
-      //ship can be dropped on antother ship - we have to check if all squares are taken first and then if not then add class taken
-      //line below only works if we drop the whole ship on the other one
-      if (userSquares[areaToBeDropped].classList.contains('taken')) break;
-      if (!userSquares[areaToBeDropped].classList.contains('taken')) userSquares[areaToBeDropped].classList.add('taken', shipClass);   
-    } 
+      if (userSquares[parseInt(this.dataset.id) - (selectedShipIndex * width) + (i * width)].classList.contains('taken')) areaIsEmpty = false;
+    };
+    //drop ship if its empty
+    if (areaIsEmpty) {
+        for (let i = 0; i < draggedShipLength; i++) {
+          userSquares[parseInt(this.dataset.id) - (selectedShipIndex * width) + (i * width)].classList.add('taken', shipClass);   
+        } 
+      } else return; 
     } else return;
   
 displayGrid.removeChild(draggedShip);
@@ -232,7 +244,7 @@ function playGame() {
     turnDisplay.innerHTML = 'Your Go';
     computerSquares.forEach(square => square.addEventListener('click', function(event) {
       revealSquare(square);
-    }))
+    }));
   };
   if (currentPlayer === 'computer') {
     turnDisplay.innerHTML = "Computer's Go";
