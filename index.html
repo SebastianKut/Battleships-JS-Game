@@ -4,55 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="app.js" charset="utf-8"></script>
     <title>Battleships Game</title>
 </head>
 <body>
+
+    <button class="opening">Play Battleships</button>
+   
+  <section class="single-player">  
     <div class="container">
-        <div class="grid grid-user"></div>
-        <div class="grid grid-computer"></div>
+        <div class="battleship-grid-container">
+            <h1>Player</h1>
+            <div class="battleship-grid grid-user"></div>
+        </div>
+        <div class="battleship-grid-container">
+            <h1>CPU</h1>
+            <div class="battleship-grid grid-computer"></div>
+        </div>
     </div>
 
     <div class="hidden-info">
-        <button id="start">Start Game</button>
-        <button id="rotate">Rotate Ships</button>
-        <h3 id="whose-go">Your Go</h3>
-        <h3 id="info"></h3>
+        <button id="start" class="btn">Start</button>
+        <button id="rotate" class="btn">Rotate ships</button>
+        <button id="play-again" class="btn">Play again</button>
+        <h2 id="whose-go">Your Go</h2>
+        <h2 id="info">Drag and drop ships on your grid</h2>
     </div>
+    <div class="container">
+        <div class="grid-display">
+            <div class="ship destroyer-container" draggable="true">
+                <div id="destroyer-0"></div>
+                <div id="destroyer-1"></div>
+            </div>  
+            
+            <div class="ship submarine-container" draggable="true">
+                <div id="submarine-0"></div>
+                <div id="submarine-1"></div>
+                <div id="submarine-2"></div>
+            </div>    
 
-    <div class="grid-display">
-        <div class="ship destroyer-container" draggable="true">
-            <div id="destroyer-0"></div>
-            <div id="destroyer-1"></div>
-        </div>  
-        
-        <div class="ship submarine-container" draggable="true">
-            <div id="submarine-0"></div>
-            <div id="submarine-1"></div>
-            <div id="submarine-2"></div>
-        </div>    
+            <div class="ship cruiser-container" draggable="true">
+                <div id="cruiser-0"></div>
+                <div id="cruiser-1"></div>
+                <div id="cruiser-2"></div>
+            </div>    
 
-        <div class="ship cruiser-container" draggable="true">
-            <div id="cruiser-0"></div>
-            <div id="cruiser-1"></div>
-            <div id="cruiser-2"></div>
-        </div>    
+            <div class="ship battleship-container" draggable="true">
+                <div id="battleship-0"></div>
+                <div id="battleship-1"></div>
+                <div id="battleship-2"></div>
+                <div id="battleship-3"></div>
+            </div>    
 
-        <div class="ship battleship-container" draggable="true">
-            <div id="battleship-0"></div>
-            <div id="battleship-1"></div>
-            <div id="battleship-2"></div>
-            <div id="battleship-3"></div>
-        </div>    
-
-        <div class="ship carrier-container" draggable="true">
-            <div id="carrier-0"></div>
-            <div id="carrier-1"></div>
-            <div id="carrier-2"></div>
-            <div id="carrier-3"></div>
-            <div id="carrier-4"></div>
-        </div>    
+            <div class="ship carrier-container" draggable="true">
+                <div id="carrier-0"></div>
+                <div id="carrier-1"></div>
+                <div id="carrier-2"></div>
+                <div id="carrier-3"></div>
+                <div id="carrier-4"></div>
+            </div>    
+        </div>
     </div>
+  </section>
 
+<audio src="sounds/game start.mp3" id="start-sound" preload="auto"></audio>
+<audio src="sounds/game over.mp3" id="end-sound"></audio>
+<audio src="sounds/hit.wav" id="hit-sound"></audio>
+<audio src="sounds/miss.wav" id="miss-sound"></audio>
+<audio src="sounds/start.wav" id="start-sound"></audio>
+<script src="app.js" charset="utf-8"></script>
 </body>
 </html>

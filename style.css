@@ -1,159 +1,236 @@
 /*style grids and ships*/
 
+body {
+    height: 100vh;
+    margin: 0;
+    background-color: #1B1725;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    color: #F9F8F8;
+  }
+  
 .container{
     display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
-.grid-user {
-    width: 400px;
-    height: 400px;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: blue;
-    margin: 20px;
+.battleship-grid-container {
+    text-align: center;
 }
 
-.grid div {
-    width: 40px;
-    height: 40px;
+.hidden-info {
+    display: grid;
+    grid-template-columns: 40vmin 20vmin 40vmin;
+    grid-template-rows: 5vmin 5vmin 5vmin;
+    justify-content: center;
+
 }
 
-.grid-computer {
-    width: 400px;
-    height: 400px;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: green;
-    margin: 20px;
+.btn {
+   grid-column: 2/3; 
+   place-self: center;
+   font-size: 2vmin;
+   white-space: nowrap; /*prevents text jumping to the next line*/
+   padding: 1vmin;
+   height: 100%;
+   width: 100%;
+   border-radius: 2rem;
+   border: none;
+   background-color: #F3DE8A;
+   color: rgb(0, 0, 0);
+}
+
+.btn:hover {
+    background-color: #f3d660;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+.hidden-info > h2 {
+    grid-column: 2/3;
+    grid-row: 3/4;
+    place-self: center;
+    white-space: nowrap;
+}
+
+.battleship-grid {
+    margin: 2vmin;
+    display: grid;
+    background-color: #78CAD2;
+    grid-template-rows: repeat(10, 4.6vmin);
+    grid-template-columns: repeat(10, 4.6vmin);
+}
+
+
+.battleship-grid div {
+    border: 1px solid rgba(255, 255, 255, 0.651);
+}
+
+.grid-computer .taken {
+    background-color: transparent;
+}
+
+.grid-computer:hover {
+    cursor: crosshair;
+}
+
+.ship {
+    display: flex;  
+}
+
+.ship:hover {
+    cursor: pointer;
+}
+
+.taken,
+.ship {
+    background-color: #7E7F9A;
 }
 
 .grid-display {
-    width: 400px;
-    height: 400px;
-    background-color: yellow;
-    margin: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.ship > div {
+    width: 4.6vmin;
+    height: 4.6vmin;
 }
 
 .destroyer-container {
-    width: 80px;
-    height: 40px;
-    background-color: orange;
-    margin: 10px;
-    display: flex;
+    display: grid;
+    grid-template-columns:  repeat(2, 4.6vmin);
+    grid-template-rows: 4.6vmin;
+    margin: 2vmin;
+    max-height: 4.6vmin;
+   
 }
 
 .destroyer-container-vertical {
-    width: 40px;
-    height: 80px;
-    background-color: orange;
-    margin: 10px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-rows: repeat(2, 4.6vmin);
+    grid-template-columns: 4.6vmin;
+    margin: 2vmin;
+    max-height: 9.2vmin;
 }
 
 .submarine-container {
-    width: 120px;
-    height: 40px;
-    background-color: pink;
-    margin: 10px;
-    display: flex;
+    display: grid;
+    grid-template-columns:  repeat(3, 4.6vmin);
+    grid-template-rows: 4.6vmin;
+    margin: 2vmin;
+    max-height: 4.6vmin;
 }
 
 .submarine-container-vertical {
-    width: 40px;
-    height: 120px;
-    background-color: pink;
-    margin: 10px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-rows: repeat(3, 4.6vmin);
+    grid-template-columns: 4.6vmin;
+    margin: 2vmin;
+    max-height: 13.8vmin;
 }
 
 .cruiser-container {
-    width: 120px;
-    height: 40px;
-    background-color: purple;
-    margin: 10px;
-    display: flex;
+    display: grid;
+    grid-template-columns:  repeat(3, 4.6vmin);
+    grid-template-rows: 4.6vmin;
+    margin: 2vmin;
+    max-height: 4.6vmin;
 }
 
 .cruiser-container-vertical {
-    width: 40px;
-    height: 120px;
-    background-color: purple;
-    margin: 10px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-rows: repeat(3, 4.6vmin);
+    grid-template-columns: 4.6vmin;
+    margin: 2vmin;
+    max-height: 13.8vmin;
 }
 
 .battleship-container {
-    width: 160px;
-    height: 40px;
-    background-color: aqua;
-    margin: 10px;
-    display: flex;
+    display: grid;
+    grid-template-columns:  repeat(4, 4.6vmin);
+    grid-template-rows: 4.6vmin;
+    margin: 2vmin;
+    max-height: 4.6vmin;
 }
 
 .battleship-container-vertical {
-    width: 40px;
-    height: 160px;
-    background-color: aqua;
-    margin: 10px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-rows:  repeat(4, 4.6vmin);
+    grid-template-columns: 4.6vmin;
+    margin: 2vmin;
+    max-height: 18.4vmin;
 }
 
 .carrier-container {
-    width: 200px;
-    height: 40px;
-    background-color: lightgreen;
-    margin: 10px;
-    display: flex;
+    display: grid;
+    grid-template-columns:  repeat(5, 4.6vmin);
+    grid-template-rows: 4.6vmin;
+    margin: 2vmin;
+    max-height: 4.6vmin;
 }
 
 .carrier-container-vertical {
-    width: 40px;
-    height: 200px;
-    background-color: lightgreen;
-    margin: 10px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-rows:  repeat(5, 4.6vmin);
+    grid-template-columns: 4.6vmin;
+    margin: 2vmin;
+    max-height: 23vmin;
 }
 
-.ship div {
-    width: 40px;
-    height: 40px;
-}
-
-.destroyer {
-    background-color: orange;
-}
-
-.submarine {
-    background-color: pink;
-}
-
-.cruiser {
-    background-color: purple;
-}
-
-.battleship {
-    background-color: aqua;
-}
-
-.carrier {
-    background-color: lightgreen;
+.boom::after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    border-radius: 100%;
+    height: 3vmin;
+    width: 3vmin;
 }
 
 .boom {
-    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-computer .boom::after {
+    background-color: green;
+}
+
+.miss::after {
+    content: '';
+    position: absolute;
+    background-color: white;
+    border-radius: 100%;
+    height: 3vmin;
+    width: 3vmin;
 }
 
 .miss {
-    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#start, #whose-go {
+#start, #whose-go, #play-again {
     display: none;
 }
 
+.single-player {
+    display: none;
+}
 
+.opening {
+   font-size: 15vmin;
+   white-space: nowrap; /*prevents text jumping to the next line*/
+   padding: 1vmin;
+   height: 100%;
+   width: 100%;
+   border-radius: 2rem;
+   border: none;
+   background-color: transparent;
+   color: #F9F8F8;
+   cursor: pointer;
+}

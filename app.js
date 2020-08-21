@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', initialization);
+
+function initialization() {
     const userGrid = document.querySelector('.grid-user');
     const computerGrid = document.querySelector('.grid-computer');
     const displayGrid = document.querySelector('.grid-display');
@@ -10,14 +12,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const carrier = document.querySelector('.carrier-container');
     const startButton = document.querySelector('#start');
     const rotateButton = document.querySelector('#rotate');
+    const playAgainButton = document.querySelector('#play-again');
     const turnDisplay = document.querySelector('#whose-go');
     const infoDisplay = document.querySelector('#info');
     const userSquares = [];
     const computerSquares = [];
     const width = 10;
+    const hitSound = document.querySelector('#hit-sound');
+    const missSound = document.querySelector('#miss-sound');
+    const beginSound = document.querySelector('#start-sound');
+    const endSound = document.querySelector('#end-sound');
+    const startSound = document.querySelector('#start-sound');
+    const openingButton = document.querySelector('.opening');
+    const singlePlayer = document.querySelector('.single-player');
     let isHorizontal = true;
     let isGameOver = false;
     let currentPlayer = 'user';
+
+
+
+    openingButton.addEventListener('click', startSinglePlayer);
+
+    function startSinglePlayer() {
+      beginSound.load();
+      beginSound.autoplay = true;
+      beginSound.loop = true;
+      singlePlayer.style.display = 'block';
+      openingButton.style.display = 'none';
+    }
+    
 
     //Create boards
     function createBoard(grid, squares) {
@@ -236,6 +259,7 @@ function showStartButton() {
   startButton.style.display = 'inline-block';
   displayGrid.style.display = 'none';
   rotateButton.style.display = 'none';
+  infoDisplay.innerHTML = '';
 }
 
 function dragEnd() {
@@ -244,13 +268,17 @@ function dragEnd() {
 
 //Game Logic
 function playGame() {
+  
+  beginSound.pause();
+ 
+  
   turnDisplay.style.display = 'block';
   startButton.style.display = 'none';
 
   if (isGameOver) return;
 
   if (currentPlayer === 'user') {
-    turnDisplay.style.color = 'black';
+    turnDisplay.style.color = '#F3DE8A';
     turnDisplay.innerHTML = 'Your Go';
     computerSquares.forEach(square => square.addEventListener('click', revealSquare));
   };
@@ -272,6 +300,7 @@ let battleshipCount = 0
 let carrierCount = 0
 
 function revealSquare(event) {
+  
   //make sure that clicking on the field that was already clicked doesnt count as turn
   if (!(event.target.classList.contains('boom') || event.target.classList.contains('miss'))) {
     //logic to check when ship sinks
@@ -283,8 +312,16 @@ function revealSquare(event) {
     //logic to check if hit / miss
     if (event.target.classList.contains('taken')) {
       event.target.classList.add('boom');
+      //play sound
+      hitSound.pause();
+      hitSound.currentTime = 0;
+      hitSound.play();  
     } else {
       event.target.classList.add('miss');
+      //playSound
+      missSound.pause();
+      missSound.currentTime = 0;
+      missSound.play();  
     };
     currentPlayer = 'computer';
   } else return;
@@ -311,8 +348,14 @@ function computerGo() {
 
     if (userSquares[random].classList.contains('taken')) {
       userSquares[random].classList.add('boom');
+      hitSound.pause();
+      hitSound.currentTime = 0;
+      hitSound.play(); 
     } else {
       userSquares[random].classList.add('miss');
+      missSound.pause();
+      missSound.currentTime = 0;
+      missSound.play();  
     };
     currentPlayer = 'user';
   } else computerGo();
@@ -327,52 +370,52 @@ function checkForWins() {
   } 
 
   if (destroyerCount === 2) {
-    infoDisplay.innerHTML = 'You sunk the computers destroyer';
+    infoDisplay.innerHTML = 'You destroyed the enemies\' destroyer';
     setTimeout(hideInfo, 1000);
     destroyerCount = 10;
   }
   if (submarineCount === 3) {
-    infoDisplay.innerHTML = `You sunk the computers submarine`;
+    infoDisplay.innerHTML = `You destroyed the enemies\' submarine`;
     setTimeout(hideInfo, 1000);
     submarineCount = 10;
   }
   if (cruiserCount === 3) {
-    infoDisplay.innerHTML = `You sunk the computers cruiser`;
+    infoDisplay.innerHTML = `You destroyed the enemies\' cruiser`;
     setTimeout(hideInfo, 1000);
     cruiserCount = 10;
   }
   if (battleshipCount === 4) {
-    infoDisplay.innerHTML = `You sunk the computers battleship`;
+    infoDisplay.innerHTML = `You destroyed the enemies\' battleship`;
     setTimeout(hideInfo, 1000);
     battleshipCount = 10;
   }
   if (carrierCount === 5) {
-    infoDisplay.innerHTML = `You sunk the computers carrier`;
+    infoDisplay.innerHTML = `You destroyed the enemies\' carrier`;
     setTimeout(hideInfo, 1000);
     carrierCount = 10;
   }
   if (cpuDestroyerCount === 2) {
-    infoDisplay.innerHTML = `computers sunk your destroyer`;
+    infoDisplay.innerHTML = `The enemy destroyed your destroyer`;
     setTimeout(hideInfo, 1000);
     cpuDestroyerCount = 10;
   }
   if (cpuSubmarineCount === 3) {
-    infoDisplay.innerHTML = `computers sunk your submarine`;
+    infoDisplay.innerHTML = `The enemy destroyed your submarine`;
     setTimeout(hideInfo, 1000);
     cpuSubmarineCount = 10;
   }
   if (cpuCruiserCount === 3) {
-    infoDisplay.innerHTML = `computers sunk your cruiser`;
+    infoDisplay.innerHTML = `The enemy destroyed your cruiser`;
     setTimeout(hideInfo, 1000);
     cpuCruiserCount = 10;
   }
   if (cpuBattleshipCount === 4) {
-    infoDisplay.innerHTML = `computers sunk your battleship`;
+    infoDisplay.innerHTML = `The enemy destroyed your battleship`;
     setTimeout(hideInfo, 1000);
     cpuBattleshipCount = 10;
   }
   if (cpuCarrierCount === 5) {
-    infoDisplay.innerHTML = `computers sunk your carrier`;
+    infoDisplay.innerHTML = `The enemy destroyed your carrier`;
     setTimeout(hideInfo, 1000);
     cpuCarrierCount = 10;
   }
@@ -391,10 +434,16 @@ function checkForWins() {
 
 function gameOver() {
   isGameOver = true;
+  // playAgainButton.style.display = 'inline-block';
+  // playAgainButton.addEventListener('click', initialization);
   startButton.removeEventListener('click', playGame);
   computerSquares.forEach(square => square.removeEventListener('click', revealSquare));
   turnDisplay.style.color = 'transparent';
+  beginSound.pause();
+  endSound.pause();
+  endSound.currentTime = 0;
+  endSound.play();
 }
 
 
-})
+};
