@@ -280,7 +280,7 @@ function playGame() {
 
   if (currentPlayer === 'user') {
     turnDisplay.style.color = '#F3DE8A';
-    turnDisplay.innerHTML = 'Your Go';
+    turnDisplay.innerHTML = 'FIRE!';
     computerSquares.forEach(square => square.addEventListener('click', revealSquare));
   };
 
@@ -371,62 +371,74 @@ function checkForWins() {
   } 
 
   if (destroyerCount === 2) {
+    infoDisplay.style.color = 'lightgreen';
     infoDisplay.innerHTML = 'You destroyed the enemies\' destroyer';
     setTimeout(hideInfo, 1000);
     destroyerCount = 10;
   }
   if (submarineCount === 3) {
+    infoDisplay.style.color = 'lightgreen';
     infoDisplay.innerHTML = `You destroyed the enemies\' submarine`;
     setTimeout(hideInfo, 1000);
     submarineCount = 10;
   }
   if (cruiserCount === 3) {
+    infoDisplay.style.color = 'lightgreen';
     infoDisplay.innerHTML = `You destroyed the enemies\' cruiser`;
     setTimeout(hideInfo, 1000);
     cruiserCount = 10;
   }
   if (battleshipCount === 4) {
+    infoDisplay.style.color = 'lightgreen';
     infoDisplay.innerHTML = `You destroyed the enemies\' battleship`;
     setTimeout(hideInfo, 1000);
     battleshipCount = 10;
   }
   if (carrierCount === 5) {
+    infoDisplay.style.color = 'lightgreen';
     infoDisplay.innerHTML = `You destroyed the enemies\' carrier`;
     setTimeout(hideInfo, 1000);
     carrierCount = 10;
   }
   if (cpuDestroyerCount === 2) {
+    infoDisplay.style.color = 'red';
     infoDisplay.innerHTML = `The enemy destroyed your destroyer`;
     setTimeout(hideInfo, 1000);
     cpuDestroyerCount = 10;
   }
   if (cpuSubmarineCount === 3) {
+    infoDisplay.style.color = 'red';
     infoDisplay.innerHTML = `The enemy destroyed your submarine`;
     setTimeout(hideInfo, 1000);
     cpuSubmarineCount = 10;
   }
   if (cpuCruiserCount === 3) {
+    infoDisplay.style.color = 'red';
     infoDisplay.innerHTML = `The enemy destroyed your cruiser`;
     setTimeout(hideInfo, 1000);
     cpuCruiserCount = 10;
   }
   if (cpuBattleshipCount === 4) {
+    infoDisplay.style.color = 'red';
     infoDisplay.innerHTML = `The enemy destroyed your battleship`;
     setTimeout(hideInfo, 1000);
     cpuBattleshipCount = 10;
   }
   if (cpuCarrierCount === 5) {
+    infoDisplay.style.color = 'red';
     infoDisplay.innerHTML = `The enemy destroyed your carrier`;
     setTimeout(hideInfo, 1000);
     cpuCarrierCount = 10;
   }
 
   if ((destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount) === 50) {
+    infoDisplay.style.color = 'lightgreen';
     infoDisplay.innerHTML = 'YOU WIN';
     gameOver();
   }
 
   if ((cpuDestroyerCount + cpuSubmarineCount + cpuCruiserCount + cpuBattleshipCount + cpuCarrierCount) === 50) {
+    infoDisplay.style.color = 'red';
     infoDisplay.innerHTML = 'COMPUTER WINS';
     gameOver();
   }

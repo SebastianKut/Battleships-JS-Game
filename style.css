@@ -1,6 +1,7 @@
 /*style grids and ships*/
 
 body {
+    font-family: 'Comfortaa', cursive;
     height: 100vh;
     margin: 0;
     background-color: #1B1725;
@@ -55,6 +56,7 @@ body {
 
 #whose-go {
     grid-row: 2/3;
+    font-weight: 900;
 }
 
 #info {
@@ -243,5 +245,7 @@ body {
 }
 
 .highlight {
+    font-family: 'Rock Salt', cursive;
+    font-weight: 900;
     color: #f3d660;
 }
