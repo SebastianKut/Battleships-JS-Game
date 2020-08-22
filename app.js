@@ -313,12 +313,14 @@ function revealSquare(event) {
     //logic to check if hit / miss
     if (event.target.classList.contains('taken')) {
       event.target.classList.add('boom');
+      event.target.classList.add('animate__bounceIn');
       //play sound
       hitSound.pause();
       hitSound.currentTime = 0;
       hitSound.play();  
     } else {
       event.target.classList.add('miss');
+      event.target.classList.add('animate__bounceIn');
       //playSound
       missSound.pause();
       missSound.currentTime = 0;
@@ -349,11 +351,13 @@ function computerGo() {
 
     if (userSquares[random].classList.contains('taken')) {
       userSquares[random].classList.add('boom');
+      userSquares[random].classList.add('animate__bounceIn');
       hitSound.pause();
       hitSound.currentTime = 0;
       hitSound.play(); 
     } else {
       userSquares[random].classList.add('miss');
+      userSquares[random].classList.add('animate__bounceIn');
       missSound.pause();
       missSound.currentTime = 0;
       missSound.play();  
