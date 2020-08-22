@@ -1,4 +1,6 @@
 # Battleships-JS-Game
+Link to page - https://sebastiankut.github.io/Battleships-JS-Game/
+
 ## Following bugs fixed:
 - dropping ships in vertical position over bottom edge improperly (ships were getting cut in half and not dissapearing from the ships display)
 - dropping ships on top of eachother is fixed
@@ -13,3 +15,4 @@
 - actual images of the ships and water graphics
 
 ## Bugs to be fixed
+

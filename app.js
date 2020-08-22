@@ -15,8 +15,8 @@ function initialization() {
     const playAgainButton = document.querySelector('#play-again');
     const turnDisplay = document.querySelector('#whose-go');
     const infoDisplay = document.querySelector('#info');
-    const userSquares = [];
-    const computerSquares = [];
+    let userSquares = [];
+    let computerSquares = [];
     const width = 10;
     const hitSound = document.querySelector('#hit-sound');
     const missSound = document.querySelector('#miss-sound');
@@ -28,8 +28,6 @@ function initialization() {
     let isHorizontal = true;
     let isGameOver = false;
     let currentPlayer = 'user';
-
-
 
     openingButton.addEventListener('click', startSinglePlayer);
 
@@ -55,6 +53,9 @@ function initialization() {
     //Create divs inside user and computer grids
     createBoard(userGrid, userSquares);
     createBoard(computerGrid, computerSquares);
+
+    
+
 
     //Ships array of objects
 
@@ -434,8 +435,8 @@ function checkForWins() {
 
 function gameOver() {
   isGameOver = true;
-  // playAgainButton.style.display = 'inline-block';
-  // playAgainButton.addEventListener('click', initialization);
+  playAgainButton.style.display = 'inline-block';
+  playAgainButton.addEventListener('click', reset);
   startButton.removeEventListener('click', playGame);
   computerSquares.forEach(square => square.removeEventListener('click', revealSquare));
   turnDisplay.style.color = 'transparent';
@@ -443,6 +444,11 @@ function gameOver() {
   endSound.pause();
   endSound.currentTime = 0;
   endSound.play();
+}
+
+function reset() {
+  location.reload();
+      
 }
 
 
