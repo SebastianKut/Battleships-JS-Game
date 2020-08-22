@@ -47,11 +47,18 @@ body {
     cursor: pointer;
 }
 
-.hidden-info > h2 {
+#whose-go, #info {
     grid-column: 2/3;
-    grid-row: 3/4;
     place-self: center;
     white-space: nowrap;
+}
+
+#whose-go {
+    grid-row: 2/3;
+}
+
+#info {
+    grid-row: 3/4;
 }
 
 .battleship-grid {
@@ -233,4 +240,8 @@ body {
    background-color: transparent;
    color: #F9F8F8;
    cursor: pointer;
+}
+
+.highlight {
+    color: #f3d660;
 }

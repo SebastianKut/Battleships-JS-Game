@@ -447,8 +447,7 @@ function gameOver() {
 }
 
 function reset() {
-  location.reload();
-      
+  location.reload();  
 }
 
 
