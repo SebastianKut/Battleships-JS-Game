@@ -1,6 +1,5 @@
-document.addEventListener('DOMContentLoaded', initialization);
+document.addEventListener('DOMContentLoaded', function() {
 
-function initialization() {
     const userGrid = document.querySelector('.grid-user');
     const computerGrid = document.querySelector('.grid-computer');
     const displayGrid = document.querySelector('.grid-display');
@@ -22,7 +21,6 @@ function initialization() {
     const missSound = document.querySelector('#miss-sound');
     const beginSound = document.querySelector('#start-sound');
     const endSound = document.querySelector('#end-sound');
-    const startSound = document.querySelector('#start-sound');
     const openingButton = document.querySelector('.opening');
     const singlePlayer = document.querySelector('.single-player');
     let isHorizontal = true;
@@ -53,9 +51,6 @@ function initialization() {
     //Create divs inside user and computer grids
     createBoard(userGrid, userSquares);
     createBoard(computerGrid, computerSquares);
-
-    
-
 
     //Ships array of objects
 
@@ -99,7 +94,7 @@ function initialization() {
 
     //Draw computer ships in random locations
     function generate(ship) {
-        //random direction always will be a number between 0 or 1
+        //random direction (always will be a number between 0 or 1)
         let randomDirection = Math.floor(Math.random() * ship.directions.length); 
         //choose current ships that is generated direction
         let current = ship.directions[randomDirection]; 
@@ -114,7 +109,7 @@ function initialization() {
         const isAtRightEdge = current.some(index => (randomStart + index) % width === width - 1); //remainder will always be 9 on the right edge
         const isAtLeftEdge = current.some(index => (randomStart + index) % width === 0); // will always be 0 on the left edge
 
-        //if all above are false generate ship (add class 'taken' and ships name class to each square)
+        //if all above are false generate ship by adding relevant classes
         if(!isTaken && !isAtRightEdge && !isAtLeftEdge) current.forEach(index => computerSquares[randomStart + index].classList.add('taken', ship.name));
 
         else generate(ship);
@@ -127,7 +122,7 @@ function initialization() {
   generate(shipArray[4]);
 
 
-  //rotate ships
+  //rotate ships by manipulating css (toggle css class)
   function rotate() {
     if (isHorizontal) {
       destroyer.classList.toggle('destroyer-container-vertical');
@@ -136,7 +131,6 @@ function initialization() {
       battleship.classList.toggle('battleship-container-vertical');
       carrier.classList.toggle('carrier-container-vertical');
       isHorizontal = false;
-      console.log(isHorizontal);
     } else {
       destroyer.classList.toggle('destroyer-container-vertical');
       submarine.classList.toggle('submarine-container-vertical');
@@ -144,7 +138,6 @@ function initialization() {
       battleship.classList.toggle('battleship-container-vertical');
       carrier.classList.toggle('carrier-container-vertical');
       isHorizontal = true;
-      console.log(isHorizontal);
     }
   }
 
@@ -177,28 +170,23 @@ function dragStart(event) {
 
 function dragOver(event) {
  event.preventDefault();
- //console.log('drag over');
 }
 
 function dragEnter(event) {
   event.preventDefault();
-  //console.log('drag enter');
 }
 
 function dragLeave() {
   event.preventDefault();
- // console.log('drag leave');
 }
 
 function dragDrop() {
   //get id of the dragged ship last div(square), extract number of that div and class name 
   let shipNameWithLastId = draggedShip.lastElementChild.id
-  console.log(shipNameWithLastId);
   let shipClass = shipNameWithLastId.slice(0, -2)
-  console.log(shipClass);
   let lastShipIndex = parseInt(shipNameWithLastId.substr(-1));
-  console.log('last ship index' + lastShipIndex);
-  //to get which exact square on the grid the tail of our ship will be on
+
+  //get which exact square on the grid the tail of our ship will be on - depends on position
   let shipLastId;
   if (isHorizontal) {
     shipLastId = lastShipIndex + parseInt(this.dataset.id);
@@ -220,11 +208,10 @@ function dragDrop() {
   if (!isHorizontal) {
     shipLastId = shipLastId - parseInt(selectedShipIndex * width);
   }
-  console.log('ship last id '+shipLastId);
 
+   //check if ship can be dropped to the user grid:
+  //Horizontal position calculations
   let areaIsEmpty = true;
-  //check if ship can be dropped to the user grid
-  //in horizontal position
   if (isHorizontal && !newNotAllowedHorizontal.includes(shipLastId)) {
     //check if area is empty
     for (let i = 0; i < draggedShipLength; i++) {
@@ -237,7 +224,8 @@ function dragDrop() {
         userSquares[parseInt(this.dataset.id) - selectedShipIndex + i].classList.add('taken', shipClass);
       }
     } else return; 
-  //in vertical position
+
+  //Vertical position calculations
   } else if (!isHorizontal && shipLastId <= 99) {
     //check if area in the grid we wanna drop in is empty
     for (let i = 0; i < draggedShipLength; i++) {
@@ -251,6 +239,7 @@ function dragDrop() {
       } else return; 
     } else return;
   
+//each time ship is moved to the grid remove it from display grid and show start button when all ships dragged to the user grid    
 displayGrid.removeChild(draggedShip);
 if (displayGrid.children.length === 0) showStartButton(); 
 }
@@ -263,8 +252,8 @@ function showStartButton() {
   infoDisplay.innerHTML = '';
 }
 
+//part of drag and drop events
 function dragEnd() {
-  // console.log('dragend')
 }
 
 //Game Logic
@@ -281,11 +270,11 @@ function playGame() {
   if (currentPlayer === 'user') {
     turnDisplay.style.color = '#F3DE8A';
     turnDisplay.innerHTML = 'FIRE!';
-    computerSquares.forEach(square => square.addEventListener('click', revealSquare));
+    computerSquares.forEach(square => square.addEventListener('click', playerGo));
   };
 
   if (currentPlayer === 'computer') {
-    computerSquares.forEach(square => square.removeEventListener('click', revealSquare));
+    computerSquares.forEach(square => square.removeEventListener('click', playerGo));
     turnDisplay.style.color = 'transparent';
     turnDisplay.innerHTML = 'Computers Go';
     setTimeout(computerGo, 1000);
@@ -300,7 +289,7 @@ let cruiserCount = 0
 let battleshipCount = 0
 let carrierCount = 0
 
-function revealSquare(event) {
+function playerGo(event) {
   
   //make sure that clicking on the field that was already clicked doesnt count as turn
   if (!(event.target.classList.contains('boom') || event.target.classList.contains('miss'))) {
@@ -454,7 +443,7 @@ function gameOver() {
   playAgainButton.style.display = 'inline-block';
   playAgainButton.addEventListener('click', reset);
   startButton.removeEventListener('click', playGame);
-  computerSquares.forEach(square => square.removeEventListener('click', revealSquare));
+  computerSquares.forEach(square => square.removeEventListener('click', playerGo));
   turnDisplay.style.color = 'transparent';
   beginSound.pause();
   endSound.pause();
@@ -467,4 +456,4 @@ function reset() {
 }
 
 
-};
+});

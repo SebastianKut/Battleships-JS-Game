@@ -8,7 +8,7 @@ body {
     overflow-x: hidden;
     box-sizing: border-box;
     color: #F9F8F8;
-  }
+}
   
 .container{
     display: flex;
@@ -29,7 +29,6 @@ body {
     grid-template-columns: 40vmin 20vmin 40vmin;
     grid-template-rows: 5vmin 5vmin 5vmin;
     justify-content: center;
-
 }
 
 .btn {
@@ -74,7 +73,6 @@ body {
     grid-template-rows: repeat(10, 4.6vmin);
     grid-template-columns: repeat(10, 4.6vmin);
 }
-
 
 .battleship-grid div {
     border: 1px solid rgba(255, 255, 255, 0.651);
